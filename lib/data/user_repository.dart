@@ -19,4 +19,19 @@ class UserRepository {
     final data = res.data;
     return data is Map<String, dynamic> ? data : {'data': data};
   }
+
+
+Future<void> register({
+  required String firstName,
+  required String lastName,
+  required String email,
+  required String password,
+}) async {
+  await _dio.post('/users', data: {
+    'firstName': firstName,
+    'lastName': lastName,
+    'email': email,
+    'password': password,
+  });
+}
 }

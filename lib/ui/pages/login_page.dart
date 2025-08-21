@@ -54,6 +54,11 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 12),
             if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children:[TextButton(onPressed: ()=>context.go('/register'), child: const Text('Registrar-se'))],
+            ),
+            const SizedBox(height: 4),
             FilledButton(
               onPressed: _loading ? null : _doLogin,
               child: _loading ? const SizedBox(height:20, width:20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Entrar'),
