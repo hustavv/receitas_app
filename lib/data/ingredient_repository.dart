@@ -1,9 +1,8 @@
-// lib/data/ingredient_repository.dart
 import 'package:dio/dio.dart';
 import '../core/http.dart';
 
 class IngredientRepository {
-  IngredientRepository() : _dio = ApiHttp.build();
+  IngredientRepository() : _dio = ApiHttp.instance;
   final Dio _dio;
 
   Future<List<Map<String, dynamic>>> list({String? name, int page = 0, int size = 100}) async {

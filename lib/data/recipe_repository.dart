@@ -1,9 +1,8 @@
-// lib/data/recipe_repository.dart
 import 'package:dio/dio.dart';
 import '../core/http.dart';
 
 class RecipeRepository {
-  RecipeRepository() : _dio = ApiHttp.build();
+  RecipeRepository() : _dio = ApiHttp.instance;
   final Dio _dio;
 
   Future<List<Map<String, dynamic>>> list({
@@ -34,9 +33,9 @@ class RecipeRepository {
     final res = await _dio.get('/recipes/$id');
     final data = res.data;
     if (data is Map && data['data'] is Map) {
-      return Map<String,dynamic>.from(data['data']);
+      return Map<String, dynamic>.from(data['data']);
     }
-    return data is Map<String,dynamic> ? data : null;
+    return data is Map<String, dynamic> ? data : null;
   }
 
   Future<Map<String, dynamic>> create({

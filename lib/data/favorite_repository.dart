@@ -1,10 +1,9 @@
-// lib/data/favorite_repository.dart
 import 'package:dio/dio.dart';
 import '../core/http.dart';
 import 'user_repository.dart';
 
 class FavoriteRepository {
-  FavoriteRepository() : _dio = ApiHttp.build();
+  FavoriteRepository() : _dio = ApiHttp.instance;
   final Dio _dio;
 
   Future<List<Map<String, dynamic>>> list({
@@ -25,26 +24,23 @@ class FavoriteRepository {
     return [];
   }
 
+  /// (Opcional) adiciona favorito só com o id (se o backend aceitar)
   Future<void> add(String recipeId) async {
     await _dio.post('/favorites', data: {'recipe': {'id': recipeId}});
+  }
+
+  /// Payload completo conforme o Swagger { user: {...}, recipe: {...} }
+  Future<void> addFromRecipe(Map<String, dynamic> recipe) async {
+    final meWrap = await UserRepository().me();
+    final user = Map<String, dynamic>.from(meWrap['data'] ?? meWrap);
+    final payload = {
+      'user': user,
+      'recipe': recipe,
+    };
+    await _dio.post('/favorites', data: payload);
   }
 
   Future<void> remove(String favoriteId) async {
     await _dio.delete('/favorites/$favoriteId');
   }
-
-
-/// Adiciona um favorito enviando o payload completo esperado pela API
-/// { user: {...}, recipe: {...} }
-Future<void> addFromRecipe(Map<String, dynamic> recipe) async {
-  // Obter usuário logado
-  final meWrap = await UserRepository().me();
-  final user = Map<String, dynamic>.from(meWrap['data'] ?? meWrap);
-  // Montar payload conforme swagger
-  final payload = {
-    'user': user,
-    'recipe': recipe,
-  };
-  await _dio.post('/favorites', data: payload);
-}
 }

@@ -1,9 +1,8 @@
-// lib/data/user_repository.dart
 import 'package:dio/dio.dart';
 import '../core/http.dart';
 
 class UserRepository {
-  UserRepository() : _dio = ApiHttp.build();
+  UserRepository() : _dio = ApiHttp.instance;
   final Dio _dio;
 
   Future<void> login(String email, String password) async {
@@ -20,18 +19,17 @@ class UserRepository {
     return data is Map<String, dynamic> ? data : {'data': data};
   }
 
-
-Future<void> register({
-  required String firstName,
-  required String lastName,
-  required String email,
-  required String password,
-}) async {
-  await _dio.post('/users', data: {
-    'firstName': firstName,
-    'lastName': lastName,
-    'email': email,
-    'password': password,
-  });
-}
+  Future<void> register({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+  }) async {
+    await _dio.post('/users', data: {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'password': password,
+    });
+  }
 }

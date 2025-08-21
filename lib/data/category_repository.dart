@@ -1,9 +1,8 @@
-// lib/data/category_repository.dart
 import 'package:dio/dio.dart';
 import '../core/http.dart';
 
 class CategoryRepository {
-  CategoryRepository() : _dio = ApiHttp.build();
+  CategoryRepository() : _dio = ApiHttp.instance;
   final Dio _dio;
 
   Future<List<Map<String, dynamic>>> list({String? name, int page = 0, int size = 50}) async {
